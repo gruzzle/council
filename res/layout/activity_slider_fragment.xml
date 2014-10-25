@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+    
+    <SeekBar
+        android:id="@+id/slider_agent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="50" />
+    
+    <TextView        
+        android:id="@+id/text_slider_agent"
+        android:layout_below="@id/slider_agent"        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingBottom="20dp"        
+        android:text="@string/slider_agent" />
+    
+    <SeekBar        
+        android:id="@+id/slider_media"
+        android:layout_below="@id/text_slider_agent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="50" />
+    
+    <TextView
+        android:id="@+id/text_slider_media"
+        android:layout_below="@id/slider_media"                
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingBottom="20dp"                
+        android:text="@string/slider_media" />
+    
+    <SeekBar
+        android:id="@+id/slider_unrest"
+        android:layout_below="@id/text_slider_media"        
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:progress="50" />
+    
+    <TextView        
+        android:id="@+id/text_slider_unrest"  
+        android:layout_below="@id/slider_unrest"      
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingBottom="20dp"                
+        android:text="@string/slider_unrest" />
+    
+    
+
+</RelativeLayout>

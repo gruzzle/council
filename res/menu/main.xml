@@ -1,0 +1,35 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="secret.council.MainActivity" >
+
+    <item
+        android:id="@+id/action_missions"
+        android:title="@string/action_missions"
+        android:icon="@drawable/ic_launcher"
+        android:layout_height="fill_parent"
+        android:scaleType="centerInside"
+        app:showAsAction="always"/>
+    
+    <item
+        android:id="@+id/action_council"
+        android:title="@string/action_council"
+        android:icon="@drawable/ic_launcher"
+        android:layout_height="fill_parent"
+        android:scaleType="centerInside"                
+        app:showAsAction="always"/>
+    
+    <item
+        android:id="@+id/action_market"
+        android:title="@string/action_market"
+        android:icon="@drawable/ic_launcher"
+        android:layout_height="fill_parent"
+        android:scaleType="centerInside"        
+        app:showAsAction="always"/>
+    
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_market"
+        app:showAsAction="never"/>    
+
+</menu>
