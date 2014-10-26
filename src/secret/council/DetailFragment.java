@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class DetailFragment extends Fragment {
+	public static final String TAG = "DetailFragment";
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -25,10 +27,10 @@ public class DetailFragment extends Fragment {
 		MainActivity mainActivity = (MainActivity) getActivity();
 		
 		TextView agentText = (TextView) mainActivity.findViewById(R.id.text_agent_details);
-		agentText.setText(String.format("Agents: %d", player.getAgentNumber()));
+		agentText.setText(String.format("Agents: +%d", player.getAgentNumberChange()));
 		TextView mediaText = (TextView) mainActivity.findViewById(R.id.text_media_details);
-		mediaText.setText(String.format("Media reach: %.0f", player.getMediaReach()));
+		mediaText.setText(String.format("Media reach: +%d", player.getMediaReachChange()));
 		TextView unrestText = (TextView) mainActivity.findViewById(R.id.text_unrest_details);
-		unrestText.setText(String.format("Unrest: %.0f", player.getUnrestSpread()));
+		unrestText.setText(String.format("Unrest: +%d", player.getUnrestSpreadChange()));
 	}
 }

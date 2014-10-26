@@ -39,11 +39,19 @@ public class DatabaseHelper extends SQLiteAssetHelper {
 	    db = dbHelper.getWritableDatabase();
 	}
 		
-	public String get(int id, String columnName) {
+	public String getString(int id, String columnName) {
 		SQLiteDatabase db = getReadableDatabase();		
 		Cursor c = db.rawQuery("SELECT * FROM Events WHERE id=" + id, null);		
 		c.moveToFirst();
 		
 		return c.getString(c.getColumnIndexOrThrow(columnName));
+	}
+	
+	public int getInt(int id, String columnName) {
+		SQLiteDatabase db = getReadableDatabase();		
+		Cursor c = db.rawQuery("SELECT * FROM Events WHERE id=" + id, null);		
+		c.moveToFirst();
+		
+		return c.getInt(c.getColumnIndexOrThrow(columnName));
 	}
 }

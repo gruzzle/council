@@ -10,14 +10,17 @@ public class Councilman {
 	private String name;
 	private float barProgress;
 	private float multiplier;
+	
 	public String getName () { return name; }
 	public float getBarProgress () { return barProgress; }
 	public float getMultiplier () { return multiplier; }
 	public void setMultiplier (float multiplier) { this.multiplier = multiplier; }
+	
 	public Councilman() {
-		do {
+		//do {
 			name = names[random.nextInt(names.length - 1) + 1];	
-		} while (usedNames.contains(name) == true);
+		//} while (usedNames.contains(name) == true); // prevents a name being repeated
+		
 		usedNames.add(name);
 		barProgress = 0f;
 		multiplier = random.nextFloat();

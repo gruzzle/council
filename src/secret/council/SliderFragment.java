@@ -7,7 +7,8 @@ import android.view.*;
 import android.widget.SeekBar;
 
 public class SliderFragment extends Fragment {
-		
+	public static final String TAG = "SliderFragment";	
+	
 	 @Override
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	      Bundle savedInstanceState) {

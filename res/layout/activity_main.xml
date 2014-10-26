@@ -1,27 +1,105 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:baselineAligned="false"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context="secret.council.MainActivity" >
 
-    <fragment 
-        android:id="@+id/main_fragment"
-        android:layout_weight="1"      
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#393C40" >
+        
+        <TextView 
+          android:id="@+id/text_resource_display_left"
+          android:textSize="14sp"
+          android:textColor="#E9EFF7"
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:paddingRight="10dp"
+          android:paddingEnd="10dp"
+          android:paddingLeft="10dp"
+          android:paddingStart="10dp"
+          android:paddingTop="6dp" 
+          android:paddingBottom="8dp"/>
+        
+		<TextView 
+          android:id="@+id/text_resource_display_right"
+          android:textSize="14sp"
+          android:textColor="#E9EFF7"
+          android:layout_toRightOf="@id/text_resource_display_left"
+          android:layout_toEndOf="@id/text_resource_display_left"
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:paddingTop="6dp" 
+          android:paddingBottom="8dp"/>
+	
+		<ImageButton 
+            android:id="@+id/button_next_turn"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true" 
+            android:src="@drawable/ic_next_turn"
+            android:onClick="onClickNextTurn"
+            android:contentDescription="@string/action_next_turn" />
+        
+        <ImageButton 
+            android:id="@+id/button_market"
+            android:layout_toLeftOf="@id/button_next_turn"
+            android:layout_toStartOf="@id/button_next_turn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true" 
+            android:src="@drawable/ic_market"
+            android:contentDescription="@string/action_market" />
+        
+        <ImageButton 
+            android:id="@+id/button_mission"
+            android:layout_toLeftOf="@id/button_market"
+            android:layout_toStartOf="@id/button_market"            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true" 
+            android:src="@drawable/ic_mission"            
+            android:contentDescription="@string/action_missions" />
+        
+        <ImageButton 
+            android:id="@+id/button_council"
+            android:layout_toLeftOf="@id/button_mission"
+            android:layout_toStartOf="@id/button_mission"                        
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true" 
+            android:src="@drawable/ic_council"             
+            android:contentDescription="@string/action_council" />
+        
+    </RelativeLayout>
+
+    <LinearLayout
+        android:paddingTop="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
- 		class="secret.council.SliderFragment" />
-    
-    <fragment 
-        android:id="@+id/detail_fragment"
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
- 		class="secret.council.DetailFragment" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false" >
+
+        <fragment
+            android:id="@+id/slider_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="20dp"
+            class="secret.council.SliderFragment" />
+
+        <fragment
+            android:id="@+id/detail_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            class="secret.council.DetailFragment" />
+        
+    </LinearLayout>
 
 </LinearLayout>

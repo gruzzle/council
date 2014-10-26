@@ -6,10 +6,11 @@ import java.util.Random;
 
 public class Event {
 	public enum EffectType {
-		INCREASE_MONEY, DECREASE_MONEY;
+		INCREASE_MONEY, DECREASE_MONEY, INCREASE_AGENTS, DECREASE_AGENTS, INCREASE_AGENT_SKILL, DECREASE_AGENT_SKILL, INCREASE_MEDIA_REACH, DECREASE_MEDIA_REACH,
+		INCREASE_MEDIA_INFLUENCE, DECREASE_MEDIA_INFLUENCE, INCREASE_UNREST_SPREAD, DECREASE_UNREST_SPREAD;
 	}	
 	
-	private static final int EVENT_COUNT = 4; // number of events in db 	
+	private static final int EVENT_COUNT = 10; // number of events in db 	
 	private static Random random = new Random();
 			
 	private int id;	
@@ -24,13 +25,13 @@ public class Event {
 		
 	public Event(DatabaseHelper db) {
 		id = random.nextInt(EVENT_COUNT) + 1;
-		name = db.get(id, "name");
-		description = db.get(id, "description");
+		name = db.getString(id, "name");
+		description = db.getString(id, "description");
 		
-		String[] effectStrings = db.get(id, "effects").split(",");		
-		for (int i = 0; i < effectStrings.length; i += 2) {
-			effects.add(new Effect(EffectType.valueOf(effectStrings[i]), Float.parseFloat(effectStrings[i+1])));
-		}
+		EffectType effectType = EffectType.valueOf(db.getString(id, "effect"));
+		int value = db.getInt(id, "value");
+		
+		effects.add(new Effect(effectType, value));
 	}
 	
 	public String toString() {

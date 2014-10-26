@@ -5,6 +5,7 @@
     tools:context="${relativePackage}.${activityClass}" >
 
     <LinearLayout
+        android:id="@+id/layout_details_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:orientation="vertical">
@@ -27,7 +28,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         
-    </LinearLayout>        
+    </LinearLayout>     
     
-
 </RelativeLayout>

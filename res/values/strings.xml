@@ -2,17 +2,23 @@
 <resources>
 
     <string name="app_name">Secret Council</string>
+    
     <string name="action_settings">Settings</string>
     <string name="action_missions">Missions</string>
     <string name="action_market">Market</string>
-    <string name="action_council">Council</string>    
+    <string name="action_council">Council</string>
+    <string name="action_next_turn">Next Turn</string>    
+        
     <string name="title_activity_council">Council</string>
     <string name="title_activity_policy">PolicyActivity</string>
     <string name="title_activity_slider_fragment">SliderFragment</string>
+    
     <string name="slider_agent">Agent Training</string>
     <string name="slider_media">Media Propaganda</string>
     <string name="slider_unrest">Population Control</string>
+    
     <string name="title_activity_detail_fragment">DetailFragment</string>
+    
     <string name="hello_world">Hello world!</string>
 
 </resources>
