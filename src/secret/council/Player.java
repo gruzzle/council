@@ -25,6 +25,11 @@ public class Player {
 		mediaPerception = 50f;
 		unrestSpread = 20;
 		unrestStrength = 10f;
+		
+		agentNumberChange = 5;
+		mediaReachChange = 5;
+		unrestSpreadChange = 5;		
+		
 		missions = new ArrayList<Mission>();
 	}
 	

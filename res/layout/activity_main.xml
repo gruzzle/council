@@ -84,6 +84,22 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:baselineAligned="false" >
+        
+        <FrameLayout            
+    		android:id="@+id/fragment_container_left"
+    		android:layout_width="wrap_content"
+    		android:layout_height="match_parent"        
+    		android:layout_weight="1"
+    		android:layout_marginRight="20dp"
+    		android:layout_marginEnd="20dp" />
+    	
+        <FrameLayout        
+    		android:id="@+id/fragment_container_right"
+    		android:layout_width="wrap_content"
+    		android:layout_height="match_parent" 
+    		android:layout_weight="1" />
+        
+        <!-- 
 
         <fragment
             android:id="@+id/slider_fragment"
@@ -99,6 +115,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             class="secret.council.DetailFragment" />
+            
+         -->
         
     </LinearLayout>
 

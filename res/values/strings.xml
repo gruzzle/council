@@ -17,6 +17,8 @@
     <string name="slider_media">Media Propaganda</string>
     <string name="slider_unrest">Population Control</string>
     
+    <string name="content_description_councilman">Councilman</string>
+    
     <string name="title_activity_detail_fragment">DetailFragment</string>
     
     <string name="hello_world">Hello world!</string>

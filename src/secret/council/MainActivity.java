@@ -8,6 +8,9 @@ import secret.council.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,12 +23,12 @@ public class MainActivity extends Activity
 		public static final String TAG = "MainActivity";
 	
 	private Player player = null;
-	private Councilman[] councilmen = new Councilman[6];
+	private Councilman[] councilmen = new Councilman[5];
 	private Random random = new Random();
 	private DatabaseHelper db;
 	
 	// TODO try to remove?
-	public Player getPlayer() { return player; }
+	protected Player getPlayer() { return player; }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,24 +41,89 @@ public class MainActivity extends Activity
 		
 		setContentView(R.layout.activity_main);
 		
+		FragmentManager fragmentManager = getFragmentManager();
+		
+		SliderFragment sliderFragment = new SliderFragment();
+		fragmentManager.beginTransaction().add(R.id.fragment_container_left, sliderFragment).commit();		
+		//sliderFragment.updateUI(player);
+				
+		DetailFragment detailFragment = new DetailFragment();
+		fragmentManager.beginTransaction().add(R.id.fragment_container_right, detailFragment).commit();
+		//detailFragment.updateUI(player);
+		
+		new SliderUIInitializationTask().execute();
+		new DetailUIInitializationTask().execute();
+		
 		DatabaseHelper.forceDatabaseReload(this);		
 		db = new DatabaseHelper(this);
-		updateResourcesFromSliders(); // TODO replace this with something better
-		updateUI();
+		
+		updateBar();
+		//updateUI();
 	}
 	
+	/*
+	 * Waits for slider fragment to be created then updates its UI
+	 * Only used when program first started
+	 * TODO make the polling nicer
+	 */
+	
+	private class SliderUIInitializationTask extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			
+			FragmentManager fragmentManager = getFragmentManager();			
+			while (fragmentManager.findFragmentById(R.id.fragment_container_left) == null ||
+					findViewById(R.id.slider_agent) == null	) {
+				;
+			}
+			
+			SliderFragment sliderFragment = (SliderFragment) fragmentManager.findFragmentById(R.id.fragment_container_left);
+			sliderFragment.initializeSliders();
+			
+			return null;
+		}
+	}
+	
+	/*
+	 * Waits for detail fragment to be created then updates its UI
+	 * Only used when program first started
+	 * TODO make the polling nicer
+	 */
+	
+	private class DetailUIInitializationTask extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			
+			FragmentManager fragmentManager = getFragmentManager();			
+			while (fragmentManager.findFragmentById(R.id.fragment_container_right) == null) {
+				;
+			}
+			
+			DetailFragment detailFragment = (DetailFragment) fragmentManager.findFragmentById(R.id.fragment_container_right);
+			detailFragment.updateUI(player);
+			
+			return null;
+		}
+	}
+		
 	/*
 	 * Updates various UI components
 	 */
 	public void updateUI() {
-		updateResourceCounterText();		
-		updateDetailFragmentText();
+		FragmentManager fragmentManager = getFragmentManager();
+		UpdatableFragment leftFragment = (UpdatableFragment) fragmentManager.findFragmentById(R.id.fragment_container_left);		
+		leftFragment.updateUI(player);
+		
+		UpdatableFragment rightFragment = (UpdatableFragment) fragmentManager.findFragmentById(R.id.fragment_container_right);
+		rightFragment.updateUI(player);
+		
+		updateBar();
 	}
-
+	
 	/*
-	 * Updates resource counter text
+	 * Update status bar with resources etc.
 	 */
-	public void updateResourceCounterText() {
+	private void updateBar() {
 		String resources = String.format("Money: $%d\nAgents: %d\nMedia reach: %d\nPopulation unrest: %d"
 				, player.getMoney(), player.getAgentNumber(), player.getMediaReach(), player.getUnrestSpread());
 		((TextView) findViewById(R.id.text_resource_display_left)).setText(resources);
@@ -64,14 +132,7 @@ public class MainActivity extends Activity
 				, player.getAgentSkill(), player.getMediaPerception(), player.getUnrestStrength());
 		((TextView) findViewById(R.id.text_resource_display_right)).setText(resources);
 	}
-		
-	/*
-	 * Updates resource text on detail fragment
-	 */
-	public void updateDetailFragmentText() {
-		((DetailFragment) getFragmentManager().findFragmentById(R.id.detail_fragment)).updateDetailText(player);
-	}
-	
+
 	/*
 	 * Create player and councilmen
 	 */
@@ -203,13 +264,17 @@ public class MainActivity extends Activity
 	/*
 	 * Updates player to reflect slider settings
 	 */
+	// TODO fix this method, should belong to sliderFragment or player, probably
+	// probably don't need this anymore
+	/*
 	private void updateResourcesFromSliders() {
-		SliderFragment sliderFragment = (SliderFragment) getFragmentManager().findFragmentById(R.id.slider_fragment);		
+		SliderFragment sliderFragment = (SliderFragment) getFragmentManager().findFragmentById(R.id.fragment_container_left);		
 				
 		updateAgentsFromSlider(((SeekBar) sliderFragment.getView().findViewById(R.id.slider_agent)).getProgress());
 		updateMediaFromSlider(((SeekBar) sliderFragment.getView().findViewById(R.id.slider_media)).getProgress());
 		updateUnrestFromSlider(((SeekBar) sliderFragment.getView().findViewById(R.id.slider_unrest)).getProgress());		
 	}
+	*/
 
 	private void updateAgentsFromSlider(int progress) {
 		// TODO turn progress percentage into a number
