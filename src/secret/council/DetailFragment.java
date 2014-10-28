@@ -19,25 +19,22 @@ public class DetailFragment extends UpdatableFragment {
 	}
 
 	@Override
-	public void updateUI(Player player) {
-		// TODO current player parameter not used
-		getActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState); 
 
-				//stuff that updates ui
-				MainActivity mainActivity = (MainActivity) getActivity();
-				Player player = mainActivity.getPlayer();
+		updateUI();
+	}
 
-				TextView agentText = (TextView) mainActivity.findViewById(R.id.text_agent_details);
-				agentText.setText(String.format("Agents: +%d", player.getAgentNumberChange()));
-				TextView mediaText = (TextView) mainActivity.findViewById(R.id.text_media_details);
-				mediaText.setText(String.format("Media reach: +%d", player.getMediaReachChange()));
-				TextView unrestText = (TextView) mainActivity.findViewById(R.id.text_unrest_details);
-				unrestText.setText(String.format("Unrest: +%d", player.getUnrestSpreadChange()));
+	@Override
+	public void updateUI() {
+		MainActivity mainActivity = (MainActivity) getActivity();
+		Player player = mainActivity.getPlayer();
 
-			}
-		});
-	
+		TextView agentText = (TextView) mainActivity.findViewById(R.id.text_agent_details);
+		agentText.setText(String.format("Agents: +%d", player.getAgentNumberChange()));
+		TextView mediaText = (TextView) mainActivity.findViewById(R.id.text_media_details);
+		mediaText.setText(String.format("Media reach: +%d", player.getMediaReachChange()));
+		TextView unrestText = (TextView) mainActivity.findViewById(R.id.text_unrest_details);
+		unrestText.setText(String.format("Unrest: +%d", player.getUnrestSpreadChange()));
 	}
 }

@@ -33,89 +33,24 @@ public class MainActivity extends Activity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		Log.d(TAG, "onCreate()");
 
 	    this.requestWindowFeature(Window.FEATURE_NO_TITLE); // no titlebar, maybe do a better way
 		initializeBadGuys(); // TODO currently needs to be before setContentView, fix?
 		
 		setContentView(R.layout.activity_main);
-		
+
+		// create fragments
 		FragmentManager fragmentManager = getFragmentManager();
 		
 		SliderFragment sliderFragment = new SliderFragment();
 		fragmentManager.beginTransaction().add(R.id.fragment_container_left, sliderFragment).commit();		
-		//sliderFragment.updateUI(player);
 				
 		DetailFragment detailFragment = new DetailFragment();
 		fragmentManager.beginTransaction().add(R.id.fragment_container_right, detailFragment).commit();
-		//detailFragment.updateUI(player);
 		
-		new SliderUIInitializationTask().execute();
-		new DetailUIInitializationTask().execute();
-		
+		// make sure we're using most recent db file
 		DatabaseHelper.forceDatabaseReload(this);		
 		db = new DatabaseHelper(this);
-		
-		updateBar();
-		//updateUI();
-	}
-	
-	/*
-	 * Waits for slider fragment to be created then updates its UI
-	 * Only used when program first started
-	 * TODO make the polling nicer
-	 */
-	
-	private class SliderUIInitializationTask extends AsyncTask<Void, Void, Void> {
-		@Override
-		protected Void doInBackground(Void... arg0) {
-			
-			FragmentManager fragmentManager = getFragmentManager();			
-			while (fragmentManager.findFragmentById(R.id.fragment_container_left) == null ||
-					findViewById(R.id.slider_agent) == null	) {
-				;
-			}
-			
-			SliderFragment sliderFragment = (SliderFragment) fragmentManager.findFragmentById(R.id.fragment_container_left);
-			sliderFragment.initializeSliders();
-			
-			return null;
-		}
-	}
-	
-	/*
-	 * Waits for detail fragment to be created then updates its UI
-	 * Only used when program first started
-	 * TODO make the polling nicer
-	 */
-	
-	private class DetailUIInitializationTask extends AsyncTask<Void, Void, Void> {
-		@Override
-		protected Void doInBackground(Void... arg0) {
-			
-			FragmentManager fragmentManager = getFragmentManager();			
-			while (fragmentManager.findFragmentById(R.id.fragment_container_right) == null) {
-				;
-			}
-			
-			DetailFragment detailFragment = (DetailFragment) fragmentManager.findFragmentById(R.id.fragment_container_right);
-			detailFragment.updateUI(player);
-			
-			return null;
-		}
-	}
-		
-	/*
-	 * Updates various UI components
-	 */
-	public void updateUI() {
-		FragmentManager fragmentManager = getFragmentManager();
-		UpdatableFragment leftFragment = (UpdatableFragment) fragmentManager.findFragmentById(R.id.fragment_container_left);		
-		leftFragment.updateUI(player);
-		
-		UpdatableFragment rightFragment = (UpdatableFragment) fragmentManager.findFragmentById(R.id.fragment_container_right);
-		rightFragment.updateUI(player);
 		
 		updateBar();
 	}
@@ -145,13 +80,13 @@ public class MainActivity extends Activity
 	
 	/*	 
 	 * Tick everything and do events
-	 * Then update UI
+	 * Then update status bar
 	 */
 	public void nextTurn() {
 		Log.d(TAG, "nextTurn()");		
 		tickPeople();
 		//doEvents();
-		updateUI();
+		updateBar();
 	}
 	
 	/*
@@ -245,49 +180,39 @@ public class MainActivity extends Activity
 		
 	}
 	
+	/*
+	 * A slider has changed, update resources to reflect change
+	 * Then update the text on the details fragment
+	 */
 	private void sliderChanged(int sliderID, int progress) {
 		switch (sliderID) {
 		case R.id.slider_agent:
-			updateAgentsFromSlider(progress);
+			updateAgentChangeFromSlider(progress);
 			break;
 		case R.id.slider_media:
-			updateMediaFromSlider(progress);
+			updateMediaChangeFromSlider(progress);
 			break;
 		case R.id.slider_unrest:
-			updateUnrestFromSlider(progress);
+			updateUnrestChangeFromSlider(progress);
 			break;
 		}
 	
-		updateUI();
+		// update detail fragment UI
+		((DetailFragment) getFragmentManager().findFragmentById(R.id.fragment_container_right)).updateUI();
 	}
 	
-	/*
-	 * Updates player to reflect slider settings
-	 */
-	// TODO fix this method, should belong to sliderFragment or player, probably
-	// probably don't need this anymore
-	/*
-	private void updateResourcesFromSliders() {
-		SliderFragment sliderFragment = (SliderFragment) getFragmentManager().findFragmentById(R.id.fragment_container_left);		
-				
-		updateAgentsFromSlider(((SeekBar) sliderFragment.getView().findViewById(R.id.slider_agent)).getProgress());
-		updateMediaFromSlider(((SeekBar) sliderFragment.getView().findViewById(R.id.slider_media)).getProgress());
-		updateUnrestFromSlider(((SeekBar) sliderFragment.getView().findViewById(R.id.slider_unrest)).getProgress());		
-	}
-	*/
-
-	private void updateAgentsFromSlider(int progress) {
+	private void updateAgentChangeFromSlider(int progress) {
 		// TODO turn progress percentage into a number
 		player.setAgentNumberChange(progress / 10);
 
 	}
 
-	private void updateMediaFromSlider(int progress) {
+	private void updateMediaChangeFromSlider(int progress) {
 		// TODO turn progress percentage into a number
 		player.setMediaReachChange(progress / 10);
 	}
 
-	private void updateUnrestFromSlider(int progress) {
+	private void updateUnrestChangeFromSlider(int progress) {
 		// TODO turn progress percentage into a number
 		player.setUnrestSpreadChange(progress / 10);
 	}
